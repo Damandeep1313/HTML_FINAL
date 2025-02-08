@@ -1,18 +1,20 @@
-# Use Node.js as the base image
-FROM node:18
+# Use an official lightweight Node.js image.
+FROM node:18-alpine
 
-# Set working directory
+# Set the working directory inside the container.
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package files first for dependency caching.
 COPY package*.json ./
-RUN npm install --only=production
 
-# Copy the rest of the app files
+# Install only production dependencies.
+RUN npm install --production
+
+# Copy the rest of the application code.
 COPY . .
 
-# Expose port
+# Expose port 3000 to allow the container to be accessed externally.
 EXPOSE 3000
 
-# Command to start the app
-CMD ["node", "final1.js"]
+# Define the command to run your application.
+CMD ["node", "server.js"]
